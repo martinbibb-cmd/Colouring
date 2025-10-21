@@ -1,0 +1,17 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+header, footer { display: flex; gap: 8px; align-items: center; padding: 10px 12px; border-bottom: 1px solid #e5e5e5; }
+footer { border-top: 1px solid #e5e5e5; border-bottom: none; }
+h1 { font-size: 18px; margin: 0; }
+
+main { display: grid; grid-template-columns: 180px 1fr; min-height: calc(100vh - 100px); }
+.palette { padding: 12px; border-right: 1px solid #e5e5e5; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.palette .swatch { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #bbb; cursor: pointer; }
+.palette .swatch.active { outline: 3px solid black; }
+
+.stage { display: grid; place-items: center; padding: 10px; }
+.svg-host { width: 100%; max-width: 900px; aspect-ratio: 1 / 1; background: #fff; border: 1px solid #ddd; }
+
+svg { width: 100%; height: 100%; }
+.paint { cursor: pointer; transition: fill 150ms ease; }
+.paint:hover { opacity: 0.9; }
