@@ -3,50 +3,23 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Colouring Book</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
+  <title>Colouring</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <header>
-    <h1>Colouring Book</h1>
-    <button id="installBtn" hidden>Install</button>
-  </header>
-
+  <header><h1>Colouring</h1></header>
   <main>
-    <aside class="sidebar">
-      <div class="tool-panel" id="toolPanel" role="group" aria-label="Painting tools"></div>
-      <div class="palette" id="palette" role="group" aria-label="Colour palette"></div>
-    </aside>
-
-    <section class="stage">
-      <div class="canvas-shell">
-        <!-- SVG will be injected into this host -->
-        <div id="svgHost" class="svg-host" aria-label="Colouring canvas"></div>
-        <canvas id="paintCanvas" class="paint-canvas" aria-hidden="true"></canvas>
-        <div id="outlineHost" class="outline-host" aria-hidden="true"></div>
-      </div>
-    </section>
+    <aside id="palette" class="palette"></aside>
+    <section class="stage"><div id="svgHost" class="svg-host"></div></section>
   </main>
-
   <footer>
-    <input type="file" id="fileInput" accept=".svg" />
-    <button id="choosePicture">Choose Picture</button>
-    <button id="loadSample">Load Sample</button>
+    <button id="prev">◀︎</button>
+    <span id="pageLbl"></span>
+    <button id="next">▶︎</button>
     <button id="clear">Clear</button>
     <button id="export">Export PNG</button>
   </footer>
-
-  <div id="thumbnailOverlay" class="thumbnail-overlay" hidden>
-    <div class="thumbnail-dialog" role="dialog" aria-modal="true" aria-labelledby="thumbnailHeading">
-      <div class="thumbnail-header">
-        <h2 id="thumbnailHeading">Choose a picture</h2>
-        <button type="button" id="closeThumbnail" class="thumbnail-close" aria-label="Close picture picker">×</button>
-      </div>
-      <div id="thumbnailGrid" class="thumbnail-grid" role="list"></div>
-    </div>
-  </div>
-
-  <script src="app.js"></script>
+  <script src="./app.js" defer></script>
 </body>
 </html>
