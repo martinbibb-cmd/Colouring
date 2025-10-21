@@ -1,0 +1,10 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#000" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Body region -->
+    <path class="paint" d="M100,600 C200,400 600,400 700,600 620,800 180,800 100,600 Z" fill="transparent"/>
+    <!-- Belly -->
+    <path class="paint" d="M220,620 C260,560 540,560 580,620 540,680 260,680 220,620 Z" fill="transparent"/>
+    <!-- Eye (not paintable) -->
+    <circle cx="360" cy="520" r="12" fill="#000"/>
+  </g>
+</svg>
