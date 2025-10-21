@@ -49,11 +49,22 @@ renderPalette();
 // SVG host
 const svgHost = document.getElementById('svgHost');
 
-// Load sample
-document.getElementById('loadSample').addEventListener('click', async () => {
-  const res = await fetch('./art/dinosaur.svg');
+const SAMPLE_ART = [
+  { file: './art/dinosaur.svg', title: 'Dinosaur' },
+  { file: './art/dogs-coloring-drawing.svg', title: 'Dogs' },
+  { file: './art/dogs-bird-coloring.svg', title: 'Dogs & Bird' },
+  { file: './art/girl-unicorn.svg', title: 'Girl & Unicorn' }
+];
+
+async function fetchAndLoadSVG(path) {
+  const res = await fetch(path);
   const text = await res.text();
   loadSVG(text);
+}
+
+// Load sample
+document.getElementById('loadSample').addEventListener('click', () => {
+  fetchAndLoadSVG(SAMPLE_ART[0].file);
 });
 
 // Load user SVG
@@ -63,6 +74,47 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
   const text = await file.text();
   loadSVG(text);
 });
+
+// Thumbnail picker
+const choosePictureBtn = document.getElementById('choosePicture');
+const thumbnailOverlay = document.getElementById('thumbnailOverlay');
+const thumbnailGrid = document.getElementById('thumbnailGrid');
+const closeThumbnailBtn = document.getElementById('closeThumbnail');
+
+if (choosePictureBtn && thumbnailOverlay && thumbnailGrid && closeThumbnailBtn) {
+  renderThumbnailGrid();
+
+  const hideThumbnailOverlay = () => {
+    thumbnailOverlay.hidden = true;
+    choosePictureBtn.focus();
+  };
+
+  const showThumbnailOverlay = () => {
+    thumbnailOverlay.hidden = false;
+    const firstButton = thumbnailGrid.querySelector('button');
+    firstButton?.focus();
+  };
+
+  choosePictureBtn.addEventListener('click', () => {
+    showThumbnailOverlay();
+  });
+
+  closeThumbnailBtn.addEventListener('click', () => {
+    hideThumbnailOverlay();
+  });
+
+  thumbnailOverlay.addEventListener('click', (event) => {
+    if (event.target === thumbnailOverlay) {
+      hideThumbnailOverlay();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!thumbnailOverlay.hidden && event.key === 'Escape') {
+      hideThumbnailOverlay();
+    }
+  });
+}
 
 // Clear
 document.getElementById('clear').addEventListener('click', () => {
@@ -101,6 +153,32 @@ function loadSVG(svgText) {
     p.addEventListener('click', () => {
       p.setAttribute('fill', current);
     });
+  });
+}
+
+function renderThumbnailGrid() {
+  thumbnailGrid.innerHTML = '';
+  SAMPLE_ART.forEach(({ file, title }) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.setAttribute('role', 'listitem');
+    button.addEventListener('click', () => {
+      fetchAndLoadSVG(file);
+      thumbnailOverlay.hidden = true;
+      choosePictureBtn.focus();
+    });
+
+    const img = document.createElement('img');
+    img.src = file;
+    img.alt = `${title} thumbnail`;
+
+    const caption = document.createElement('span');
+    caption.textContent = title;
+
+    button.appendChild(img);
+    button.appendChild(caption);
+
+    thumbnailGrid.appendChild(button);
   });
 }
 
