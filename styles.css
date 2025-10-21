@@ -4,13 +4,24 @@ header, footer { display: flex; gap: 8px; align-items: center; padding: 10px 12p
 footer { border-top: 1px solid #e5e5e5; border-bottom: none; }
 h1 { font-size: 18px; margin: 0; }
 
-main { display: grid; grid-template-columns: 180px 1fr; min-height: calc(100vh - 100px); }
-.palette { padding: 12px; border-right: 1px solid #e5e5e5; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.palette .swatch { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #bbb; cursor: pointer; }
-.palette .swatch.active { outline: 3px solid black; }
+main { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 100px); }
+.sidebar { padding: 16px 14px; border-right: 1px solid #e5e5e5; display: flex; flex-direction: column; gap: 18px; background: #fafafa; }
+.tool-panel { display: grid; gap: 10px; }
+.tool-panel button { padding: 10px 12px; border-radius: 10px; border: 1px solid #c8c8c8; background: #fff; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; justify-content: center; transition: background 140ms ease, border-color 140ms ease, transform 140ms ease; }
+.tool-panel button .tool-icon { font-size: 18px; line-height: 1; }
+.tool-panel button .tool-label { font-size: 14px; }
+.tool-panel button:hover, .tool-panel button:focus-visible { background: #eef3fb; border-color: #9bb3df; outline: none; transform: translateY(-1px); }
+.tool-panel button.active { background: #dbe7ff; border-color: #5f8fe2; box-shadow: inset 0 0 0 1px rgba(95, 143, 226, 0.45); }
+.palette { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.palette .swatch { width: 100%; aspect-ratio: 1 / 1; border-radius: 50%; border: 1px solid #bbb; cursor: pointer; transition: transform 120ms ease; }
+.palette .swatch:hover, .palette .swatch:focus-visible { transform: scale(1.05); outline: none; }
+.palette .swatch.active { box-shadow: 0 0 0 3px rgba(32, 64, 128, 0.3); }
 
 .stage { display: grid; place-items: center; padding: 10px; }
-.svg-host { width: 100%; max-width: 900px; aspect-ratio: 1 / 1; background: #fff; border: 1px solid #ddd; }
+.canvas-shell { width: 100%; max-width: 900px; aspect-ratio: 1 / 1; background: #fff; border: 1px solid #ddd; position: relative; border-radius: 12px; overflow: hidden; }
+.svg-host { position: absolute; inset: 0; width: 100%; height: 100%; }
+.paint-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: auto; cursor: crosshair; touch-action: none; }
+.paint-canvas.inactive { pointer-events: none; cursor: default; }
 
 svg { width: 100%; height: 100%; }
 .paint { cursor: pointer; transition: fill 150ms ease; }
