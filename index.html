@@ -14,11 +14,17 @@
   </header>
 
   <main>
-    <aside class="palette" id="palette"></aside>
+    <aside class="sidebar">
+      <div class="tool-panel" id="toolPanel" role="group" aria-label="Painting tools"></div>
+      <div class="palette" id="palette" role="group" aria-label="Colour palette"></div>
+    </aside>
 
     <section class="stage">
-      <!-- SVG will be injected here -->
-      <div id="svgHost" class="svg-host" aria-label="Colouring canvas"></div>
+      <div class="canvas-shell">
+        <!-- SVG will be injected into this host -->
+        <div id="svgHost" class="svg-host" aria-label="Colouring canvas"></div>
+        <canvas id="paintCanvas" class="paint-canvas" aria-hidden="true"></canvas>
+      </div>
     </section>
   </main>
 
