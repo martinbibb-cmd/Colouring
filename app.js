@@ -22,11 +22,23 @@ const svgHost = document.getElementById('svgHost');
 const paintCanvas = document.getElementById('paintCanvas');
 const paintCtx = paintCanvas?.getContext('2d');
 const canvasShell = document.querySelector('.canvas-shell');
+const outlineHost = document.getElementById('outlineHost');
 
 const COLORS = [
-  '#1c1b2f', '#2a2b45', '#383b5b', '#464b71',
-  '#545c87', '#626d9d', '#707eb3', '#7f8fca',
-  '#8da1e0', '#9cb2f7', '#b6c6ff', '#d0daff'
+  '#000000', '#2c2c2c', '#585858', '#8c8c8c', '#c0c0c0', '#f5f5f5',
+  '#4e342e', '#6d4c41', '#8d6e63', '#bcaaa4',
+  '#880e4f', '#ad1457', '#d81b60', '#f06292', '#f8bbd0',
+  '#4a148c', '#6a1b9a', '#8e24aa', '#ab47bc', '#ce93d8',
+  '#311b92', '#4527a0', '#512da8', '#5c6bc0', '#9fa8da',
+  '#0d47a1', '#1565c0', '#1976d2', '#1e88e5', '#42a5f5', '#90caf9',
+  '#006064', '#00838f', '#0097a7', '#00acc1', '#26c6da', '#80deea',
+  '#004d40', '#00695c', '#00796b', '#00897b', '#26a69a', '#80cbc4',
+  '#1b5e20', '#2e7d32', '#388e3c', '#43a047', '#66bb6a', '#a5d6a7',
+  '#827717', '#9e9d24', '#c0ca33', '#d4e157', '#e6ee9c',
+  '#f9a825', '#fbc02d', '#fdd835', '#ffeb3b', '#fff59d',
+  '#ef6c00', '#f57c00', '#fb8c00', '#ff9800', '#ffb74d',
+  '#bf360c', '#d84315', '#e64a19', '#f4511e', '#ff7043',
+  '#3e2723', '#5d4037', '#795548', '#a1887f'
 ];
 
 const paletteEl = document.getElementById('palette');
@@ -349,50 +361,87 @@ if (choosePictureBtn && thumbnailOverlay && thumbnailGrid && closeThumbnailBtn) 
 
 // Clear
 document.getElementById('clear').addEventListener('click', () => {
-  const svg = svgHost.querySelector('svg');
-  if (svg) {
-    svg.querySelectorAll('.paint').forEach(p => p.setAttribute('fill', 'transparent'));
+  const fillSvg = svgHost?.querySelector('svg');
+  if (fillSvg) {
+    fillSvg.querySelectorAll('.paint').forEach((p) => p.setAttribute('fill', 'transparent'));
   }
   clearPainting();
 });
 
 // Export
 document.getElementById('export').addEventListener('click', () => {
-  const svg = svgHost.querySelector('svg');
-  if (!svg) return;
-  exportSVGasPNG(svg);
+  const fillSvg = svgHost?.querySelector('svg');
+  const strokeSvg = outlineHost?.querySelector('svg');
+  if (!fillSvg) return;
+  exportSVGasPNG(fillSvg, strokeSvg);
 });
 
 // Inject SVG and wire events
 function loadSVG(svgText) {
-  // Ensure fills are present & clickable; require regions to have class="paint"
-  svgHost.innerHTML = svgText;
-  const svg = svgHost.querySelector('svg');
-  if (!svg) return;
-
-  // Make sure viewBox exists (better scaling); if missing, try to infer from width/height
-  if (!svg.getAttribute('viewBox')) {
-    const w = parseFloat(svg.getAttribute('width')) || 1024;
-    const h = parseFloat(svg.getAttribute('height')) || 1024;
-    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-    svg.removeAttribute('width');
-    svg.removeAttribute('height');
+  if (!svgHost) return;
+  svgHost.innerHTML = '';
+  if (outlineHost) {
+    outlineHost.innerHTML = '';
   }
-  const viewBox = svg.getAttribute('viewBox') || '0 0 1024 1024';
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(svgText, 'image/svg+xml');
+  const baseSvg = doc.querySelector('svg');
+  if (!baseSvg) return;
+
+  if (!baseSvg.getAttribute('viewBox')) {
+    const w = parseFloat(baseSvg.getAttribute('width')) || 1024;
+    const h = parseFloat(baseSvg.getAttribute('height')) || 1024;
+    baseSvg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  }
+  baseSvg.removeAttribute('width');
+  baseSvg.removeAttribute('height');
+
+  const viewBox = baseSvg.getAttribute('viewBox') || '0 0 1024 1024';
   const [, , vbWidth, vbHeight] = viewBox.split(/\s+/).map(Number);
   if (canvasShell && Number.isFinite(vbWidth) && Number.isFinite(vbHeight) && vbWidth > 0 && vbHeight > 0) {
     canvasShell.style.aspectRatio = `${vbWidth} / ${vbHeight}`;
   }
 
-  svg.querySelectorAll('.paint').forEach(p => {
-    // Defaults: see-through until coloured
+  const fillSvg = baseSvg.cloneNode(true);
+  const outlineSvg = baseSvg.cloneNode(true);
+  outlineSvg.setAttribute('aria-hidden', 'true');
+
+  const skipTags = new Set(['defs', 'style', 'clipPath', 'mask', 'pattern', 'linearGradient', 'radialGradient', 'symbol', 'filter']);
+
+  fillSvg.querySelectorAll('*').forEach((node) => {
+    if (!(node instanceof Element)) return;
+    const tag = node.tagName?.toLowerCase();
+    if (tag && skipTags.has(tag)) return;
+    node.setAttribute('stroke', 'none');
+    node.style.stroke = 'none';
+  });
+
+  fillSvg.querySelectorAll('.paint').forEach((p) => {
     if (!p.hasAttribute('fill')) p.setAttribute('fill', 'transparent');
     p.style.pointerEvents = 'auto';
+    p.setAttribute('pointer-events', 'all');
     p.addEventListener('click', () => {
       if (activeTool !== 'fill') return;
       p.setAttribute('fill', current);
     });
   });
+
+  outlineSvg.querySelectorAll('*').forEach((node) => {
+    if (!(node instanceof Element)) return;
+    const tag = node.tagName?.toLowerCase();
+    if (tag && skipTags.has(tag)) return;
+    node.setAttribute('fill', 'none');
+    node.style.fill = 'none';
+    node.style.pointerEvents = 'none';
+    node.setAttribute('pointer-events', 'none');
+  });
+  outlineSvg.style.pointerEvents = 'none';
+
+  svgHost.appendChild(fillSvg);
+  if (outlineHost) {
+    outlineHost.appendChild(outlineSvg);
+  }
   clearPainting();
   updatePaintTargetCursors();
   requestAnimationFrame(resizeCanvas);
@@ -425,22 +474,47 @@ function renderThumbnailGrid() {
 }
 
 // Export helper: render SVG to Canvas, then download
-function exportSVGasPNG(svg) {
+function exportSVGasPNG(fillSvg, outlineSvg) {
   const serializer = new XMLSerializer();
-  const svgString = serializer.serializeToString(svg);
+  const viewBox = fillSvg.getAttribute('viewBox') || '0 0 1024 1024';
+  const vbParts = viewBox.split(/\s+/).map(Number);
+  let width = vbParts[2];
+  let height = vbParts[3];
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+    width = parseFloat(fillSvg.getAttribute('width')) || 1024;
+    height = parseFloat(fillSvg.getAttribute('height')) || 1024;
+  }
 
-  const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-  const url = URL.createObjectURL(svgBlob);
+  const makeSvgUrl = (sourceSvg) => {
+    if (!sourceSvg) return null;
+    const root = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    root.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    root.setAttribute('viewBox', viewBox);
+    const clone = sourceSvg.cloneNode(true);
+    clone.removeAttribute('width');
+    clone.removeAttribute('height');
+    if (sourceSvg === outlineSvg) {
+      clone.querySelectorAll('defs').forEach((def) => def.remove());
+    }
+    root.appendChild(clone);
+    const svgString = serializer.serializeToString(root);
+    const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    return URL.createObjectURL(blob);
+  };
+
+  const fillUrl = makeSvgUrl(fillSvg);
+  const outlineUrl = makeSvgUrl(outlineSvg);
+  if (!fillUrl) return;
 
   const img = new Image();
   img.onload = () => {
     const canvas = document.createElement('canvas');
-    const vb = (svg.getAttribute('viewBox') || '0 0 1024 1024').split(' ').map(Number);
-    const w = vb[2], h = vb[3];
-    canvas.width = w;
-    canvas.height = h;
+    canvas.width = width;
+    canvas.height = height;
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, w, h);
+    ctx.drawImage(img, 0, 0, width, height);
+    URL.revokeObjectURL(fillUrl);
+
     const finalize = () => {
       canvas.toBlob((blob) => {
         const a = document.createElement('a');
@@ -451,24 +525,44 @@ function exportSVGasPNG(svg) {
       }, 'image/png');
     };
 
+    const drawOutlinesAndFinalize = () => {
+      if (!outlineUrl) {
+        finalize();
+        return;
+      }
+      const outlineImg = new Image();
+      outlineImg.onload = () => {
+        ctx.drawImage(outlineImg, 0, 0, width, height);
+        finalize();
+        URL.revokeObjectURL(outlineUrl);
+      };
+      outlineImg.onerror = () => {
+        finalize();
+        URL.revokeObjectURL(outlineUrl);
+      };
+      outlineImg.src = outlineUrl;
+    };
+
     const mergePainting = () => {
       if (!hasPainting || !paintCanvas) {
-        finalize();
+        drawOutlinesAndFinalize();
         return;
       }
       const paintingUrl = paintCanvas.toDataURL('image/png');
       const paintingImg = new Image();
       paintingImg.onload = () => {
-        ctx.drawImage(paintingImg, 0, 0, w, h);
-        finalize();
+        ctx.drawImage(paintingImg, 0, 0, width, height);
+        drawOutlinesAndFinalize();
       };
-      paintingImg.onerror = finalize;
+      paintingImg.onerror = drawOutlinesAndFinalize;
       paintingImg.src = paintingUrl;
     };
 
     mergePainting();
-    URL.revokeObjectURL(url);
   };
-  img.onerror = () => URL.revokeObjectURL(url);
-  img.src = url;
+  img.onerror = () => {
+    URL.revokeObjectURL(fillUrl);
+    if (outlineUrl) URL.revokeObjectURL(outlineUrl);
+  };
+  img.src = fillUrl;
 }
