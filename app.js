@@ -292,12 +292,22 @@ window.addEventListener('resize', () => {
   });
 });
 
-const SAMPLE_ART = [
-  { file: './art/dinosaur.svg', title: 'Dinosaur' },
-  { file: './art/dogs-coloring-drawing.svg', title: 'Dogs' },
-  { file: './art/dogs-bird-coloring.svg', title: 'Dogs & Bird' },
-  { file: './art/girl-unicorn.svg', title: 'Girl & Unicorn' }
+const PAGES = [
+  'art/colouring_page_1.svg',
+  'art/colouring_page_2.svg',
+  'art/colouring_page_3.svg'
 ];
+
+const resolvePagePath = (path) => (path.startsWith('.') ? path : `./${path}`);
+const pageTitleFromPath = (path) => {
+  const fileName = path.split('/').pop() || '';
+  const stem = fileName.replace(/\.svg$/i, '');
+  return stem
+    .split(/[_\-]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+};
 
 async function fetchAndLoadSVG(path) {
   const res = await fetch(path);
@@ -307,7 +317,9 @@ async function fetchAndLoadSVG(path) {
 
 // Load sample
 document.getElementById('loadSample').addEventListener('click', () => {
-  fetchAndLoadSVG(SAMPLE_ART[0].file);
+  const [first] = PAGES;
+  if (!first) return;
+  fetchAndLoadSVG(resolvePagePath(first));
 });
 
 // Load user SVG
@@ -449,18 +461,20 @@ function loadSVG(svgText) {
 
 function renderThumbnailGrid() {
   thumbnailGrid.innerHTML = '';
-  SAMPLE_ART.forEach(({ file, title }) => {
+  PAGES.forEach((file) => {
+    const resolvedFile = resolvePagePath(file);
+    const title = pageTitleFromPath(file);
     const button = document.createElement('button');
     button.type = 'button';
     button.setAttribute('role', 'listitem');
     button.addEventListener('click', () => {
-      fetchAndLoadSVG(file);
+      fetchAndLoadSVG(resolvedFile);
       thumbnailOverlay.hidden = true;
       choosePictureBtn.focus();
     });
 
     const img = document.createElement('img');
-    img.src = file;
+    img.src = resolvedFile;
     img.alt = `${title} thumbnail`;
 
     const caption = document.createElement('span');

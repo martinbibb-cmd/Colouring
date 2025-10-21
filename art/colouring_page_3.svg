@@ -1,0 +1,22 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Whale body -->
+    <path class="paint" d="M160 620 C160 460 340 360 560 360 720 360 860 420 900 520 860 600 780 620 700 600 660 660 560 700 440 700 320 700 220 680 180 640 Z" fill="transparent"/>
+    <!-- Whale tail -->
+    <path class="paint" d="M160 560 C100 520 100 460 160 440 220 420 260 460 240 520 260 540 220 580 160 560 Z" fill="transparent"/>
+    <circle cx="640" cy="520" r="12"/>
+
+    <!-- Water spout -->
+    <path class="paint" d="M620 360 C620 300 660 260 700 280 740 300 720 360 700 380 700 400 660 420 640 400 620 380 620 360 620 360 Z" fill="transparent"/>
+
+    <!-- Waves -->
+    <path class="paint" d="M80 760 C140 720 220 720 280 760 340 800 420 800 480 760 540 720 620 720 680 760 740 800 820 800 880 760 L920 760 L920 864 L80 864 Z" fill="transparent"/>
+
+    <!-- Starfish -->
+    <path class="paint" d="M320 880 L340 940 400 940 352 980 368 1040 320 1000 272 1040 288 980 240 940 300 940 Z" fill="transparent"/>
+    <!-- Bubbles -->
+    <circle class="paint" cx="760" cy="480" r="24" fill="transparent"/>
+    <circle class="paint" cx="800" cy="420" r="18" fill="transparent"/>
+    <circle class="paint" cx="760" cy="360" r="12" fill="transparent"/>
+  </g>
+</svg>

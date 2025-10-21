@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Sun -->
+    <circle class="paint" cx="820" cy="220" r="80" fill="transparent"/>
+    <line x1="820" y1="100" x2="820" y2="60"/>
+    <line x1="900" y1="220" x2="940" y2="220"/>
+    <line x1="820" y1="340" x2="820" y2="380"/>
+    <line x1="700" y1="220" x2="660" y2="220"/>
+    <line x1="880" y1="140" x2="912" y2="108"/>
+    <line x1="760" y1="140" x2="728" y2="108"/>
+    <line x1="880" y1="300" x2="912" y2="332"/>
+    <line x1="760" y1="300" x2="728" y2="332"/>
+
+    <!-- Flower stem and leaves -->
+    <path d="M320 720 C340 640 340 520 320 440"/>
+    <path class="paint" d="M300 600 C240 560 220 520 240 480 280 460 320 500 320 560 320 620 280 640 240 620 220 580 260 560 300 600 Z" fill="transparent"/>
+    <path class="paint" d="M340 620 C380 580 420 560 460 580 480 620 440 640 400 660 360 640 340 660 340 620 Z" fill="transparent"/>
+
+    <!-- Flower petals -->
+    <path class="paint" d="M320 440 C280 400 280 340 320 320 360 300 400 340 400 380 400 420 360 460 320 440 Z" fill="transparent"/>
+    <path class="paint" d="M320 440 C260 420 220 380 240 340 260 300 320 320 340 360 360 400 360 440 320 440 Z" fill="transparent"/>
+    <path class="paint" d="M320 440 C380 420 420 380 400 340 380 300 320 320 300 360 280 400 280 440 320 440 Z" fill="transparent"/>
+    <circle class="paint" cx="320" cy="360" r="40" fill="transparent"/>
+
+    <!-- Grass -->
+    <path class="paint" d="M80 800 H944 V864 H80 Z" fill="transparent"/>
+    <path d="M120 800 L140 740 L160 800"/>
+    <path d="M220 800 L240 740 L260 800"/>
+    <path d="M420 800 L440 740 L460 800"/>
+    <path d="M520 800 L540 740 L560 800"/>
+    <path d="M720 800 L740 740 L760 800"/>
+  </g>
+</svg>

@@ -1,11 +1,13 @@
-const CACHE = 'colouring-v1';
+const CACHE = 'colouring-v2';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './app.js',
   './manifest.webmanifest',
-  './art/dinosaur.svg'
+  './art/colouring_page_1.svg',
+  './art/colouring_page_2.svg',
+  './art/colouring_page_3.svg'
 ];
 
 const CACHE_BUSTED_ASSETS = ASSETS.map((url) => new Request(url, { cache: 'reload' }));

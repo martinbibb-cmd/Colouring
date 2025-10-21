@@ -1,0 +1,20 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Mountains -->
+    <path class="paint" d="M120 760 L320 360 520 760 Z" fill="transparent"/>
+    <path class="paint" d="M360 760 L580 320 800 760 Z" fill="transparent"/>
+    <path class="paint" d="M540 760 L700 400 900 760 Z" fill="transparent"/>
+
+    <!-- Snow caps -->
+    <path class="paint" d="M320 360 L280 440 L360 440 Z" fill="transparent"/>
+    <path class="paint" d="M580 320 L540 400 L620 400 Z" fill="transparent"/>
+    <path class="paint" d="M700 400 L660 480 L740 480 Z" fill="transparent"/>
+
+    <!-- River -->
+    <path class="paint" d="M100 760 C260 720 260 920 420 880 580 840 620 940 780 900 860 880 900 920 920 960 L920 1024 L100 1024 Z" fill="transparent"/>
+
+    <!-- Clouds -->
+    <path class="paint" d="M220 220 C180 220 160 200 160 180 160 140 220 120 260 140 280 100 360 120 360 180 360 220 320 240 280 240 260 260 220 260 220 220 Z" fill="transparent"/>
+    <path class="paint" d="M620 220 C580 220 560 200 560 180 560 140 620 120 660 140 680 100 760 120 760 180 760 220 720 240 680 240 660 260 620 260 620 220 Z" fill="transparent"/>
+  </g>
+</svg>
