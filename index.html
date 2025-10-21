@@ -24,10 +24,21 @@
 
   <footer>
     <input type="file" id="fileInput" accept=".svg" />
+    <button id="choosePicture">Choose Picture</button>
     <button id="loadSample">Load Sample</button>
     <button id="clear">Clear</button>
     <button id="export">Export PNG</button>
   </footer>
+
+  <div id="thumbnailOverlay" class="thumbnail-overlay" hidden>
+    <div class="thumbnail-dialog" role="dialog" aria-modal="true" aria-labelledby="thumbnailHeading">
+      <div class="thumbnail-header">
+        <h2 id="thumbnailHeading">Choose a picture</h2>
+        <button type="button" id="closeThumbnail" class="thumbnail-close" aria-label="Close picture picker">×</button>
+      </div>
+      <div id="thumbnailGrid" class="thumbnail-grid" role="list"></div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
