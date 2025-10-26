@@ -25,7 +25,7 @@ h1{font-size:18px;margin:0}
 .pager{display:flex;gap:.5rem;align-items:center;justify-content:center;padding:.4rem;border-bottom:1px solid #e6e6e6}
 #pageLbl{min-width:7ch;text-align:center}
 
-.svg-wrap{position:relative;display:grid;place-items:center;padding:12px}
+.svg-wrap{position:relative;display:flex;align-items:center;justify-content:center;padding:12px;float:left}
 .svg-host{width:100%;max-width:980px;background:#fff;border:1px solid #ddd;aspect-ratio:1/1}
 .svg-host svg{width:100%;height:100%}
 .draw-layer{position:absolute;inset:12px; /* match padding of .svg-wrap */
