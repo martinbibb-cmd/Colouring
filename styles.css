@@ -1,37 +1,72 @@
 *{box-sizing:border-box}
-:root{--bg:#ffffff;--ink:#111}
+:root{--bg:#f3f4f8;--ink:#111}
 html,body{height:100%}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;min-height:100vh}
 
-header{display:flex;align-items:center;gap:.5rem;padding:.6rem .8rem;border-bottom:1px solid #e6e6e6}
-h1{font-size:18px;margin:0}
-.spacer{flex:1}
+header{display:flex;align-items:center;gap:.75rem;padding:.75rem clamp(1rem, calc((100vw - 1180px)/2 + 1rem), 4rem);border-bottom:1px solid #e6e6e6;background:#fafafa;position:sticky;top:0;z-index:10}
+h1{font-size:20px;margin:0;font-weight:600}
+.spacer{flex:1 1 auto}
+header button{padding:.45rem .9rem;border-radius:999px;border:1px solid #d0d0d0;background:#fff;font-weight:500;box-shadow:0 1px 2px rgba(17,17,17,.06);transition:background .2s,transform .2s,box-shadow .2s}
+header button:hover{background:#f0f0f0;transform:translateY(-1px);box-shadow:0 3px 6px rgba(17,17,17,.12)}
+header button:active{transform:translateY(0);box-shadow:0 1px 2px rgba(17,17,17,.06)}
 
-.layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 52px)}
-.sidebar{padding:12px;border-right:1px solid #e6e6e6;overflow:auto}
+.layout{display:grid;grid-template-columns:minmax(240px,280px) 1fr;min-height:calc(100vh - 64px);max-width:1180px;margin:0 auto;width:100%;background:#fff;padding:1.5rem clamp(1rem,3vw,2rem);gap:1.5rem;flex:1}
+.layout > *{border-radius:18px}
+.sidebar{padding:16px;border:1px solid #e6e6e6;overflow:auto;background:#fdfdfd;display:flex;flex-direction:column;gap:1rem;box-shadow:0 6px 20px rgba(17,17,17,.08)}
 .sidebar h2{font-size:14px;margin:.5rem 0}
-.palette{display:grid;grid-template-columns:repeat(6, 1fr);gap:8px}
-.swatch{width:36px;height:36px;border-radius:50%;border:1px solid #bbb;cursor:pointer}
-.swatch.active{outline:3px solid #000}
+.palette{display:grid;grid-template-columns:repeat(auto-fill, minmax(40px,1fr));gap:10px}
+.swatch{width:100%;aspect-ratio:1;border-radius:50%;border:2px solid transparent;box-shadow:0 1px 3px rgba(17,17,17,.12);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.swatch:focus-visible{outline:3px solid #3cb44b;outline-offset:3px}
+.swatch:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(17,17,17,.18)}
+.swatch.active{border-color:#111;box-shadow:0 0 0 3px rgba(17,17,17,.15)}
 
-.tools{display:flex;gap:8px;flex-wrap:wrap;margin:.5rem 0}
-.tool{padding:.4rem .6rem;border:1px solid #bbb;background:#f7f7f7;border-radius:6px;cursor:pointer}
-.tool.active{outline:2px solid #000;background:#fff}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:.25rem 0 .5rem}
+.tool{padding:.45rem .8rem;border:1px solid #c9c9c9;background:#fff;border-radius:999px;cursor:pointer;font-weight:500;box-shadow:0 1px 2px rgba(17,17,17,.08);transition:background .2s,transform .2s,box-shadow .2s}
+.tool:hover{background:#f3f3f3;transform:translateY(-1px);box-shadow:0 3px 6px rgba(17,17,17,.12)}
+.tool.active{background:#111;color:#fff;border-color:#111;box-shadow:0 6px 14px rgba(17,17,17,.25)}
 
 .controls{display:grid;gap:.6rem;margin-top:.5rem}
-.controls label{display:grid;gap:.2rem;font-size:12px}
+.controls label{display:grid;gap:.2rem;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#444}
+.controls input{width:100%}
 
-.stage{display:grid;grid-template-rows:auto 1fr;min-width:0}
-.pager{display:flex;gap:.5rem;align-items:center;justify-content:center;padding:.4rem;border-bottom:1px solid #e6e6e6}
+.stage{display:grid;grid-template-rows:auto 1fr;min-width:0;background:#f4f6fb;border:1px solid #e0e4f4;overflow:hidden;box-shadow:0 12px 32px rgba(17,17,17,.1)}
+.pager{display:flex;gap:.5rem;align-items:center;justify-content:center;padding:.6rem;border-bottom:1px solid #dcdcdc;background:#fff;position:sticky;top:0;z-index:5}
+.pager button{width:40px;height:40px;border-radius:50%;border:1px solid #d0d0d0;background:#fff;display:grid;place-items:center;font-size:18px;transition:background .2s,transform .2s,box-shadow .2s}
+.pager button:hover{background:#f1f1f1;transform:translateY(-1px);box-shadow:0 4px 8px rgba(17,17,17,.15)}
+.pager button:active{transform:translateY(0);box-shadow:0 1px 2px rgba(17,17,17,.08)}
 #pageLbl{min-width:7ch;text-align:center}
 
-.svg-wrap{position:relative;display:flex;align-items:center;justify-content:center;padding:12px;float:left}
-.svg-host{width:100%;max-width:980px;background:#fff;border:1px solid #ddd;aspect-ratio:1/1}
+.svg-wrap{position:relative;display:flex;align-items:center;justify-content:center;padding:24px;width:100%;}
+.svg-host{width:100%;max-width:960px;background:#fff;border:1px solid #d7d7d7;border-radius:16px;box-shadow:0 10px 30px rgba(17,17,17,.12);aspect-ratio:1/1;overflow:hidden}
 .svg-host svg{width:100%;height:100%}
-.draw-layer{position:absolute;inset:12px; /* match padding of .svg-wrap */
-  width:calc(100% - 24px); height:calc(100% - 24px);
-  max-width:980px; aspect-ratio:1/1; pointer-events:auto; /* capture brush */
+.draw-layer{position:absolute;inset:24px; /* match padding of .svg-wrap */
+  width:calc(100% - 48px); height:calc(100% - 48px);
+  max-width:960px; aspect-ratio:1/1; pointer-events:auto; /* capture brush */
 }
 
 /* Buttons */
 button{cursor:pointer}
+
+@media (max-width: 1024px){
+  .layout{grid-template-columns:minmax(200px,260px) 1fr}
+  .svg-wrap{padding:20px}
+  .draw-layer{inset:20px;width:calc(100% - 40px);height:calc(100% - 40px)}
+}
+
+@media (max-width: 860px){
+  header{flex-wrap:wrap;gap:.5rem;padding:.75rem}
+  .layout{grid-template-columns:100%;grid-template-rows:auto auto;min-height:0}
+  .sidebar{border-right:none;border-bottom:1px solid #e6e6e6;flex-direction:row;flex-wrap:wrap;gap:1.5rem;overflow:visible}
+  .sidebar h2{flex-basis:100%;margin:.25rem 0}
+  .tools,.palette,.controls{flex-basis:calc(50% - .75rem);min-width:220px}
+  .stage{min-height:auto}
+}
+
+@media (max-width: 600px){
+  body{font-size:15px}
+  .sidebar{padding:12px;gap:1rem}
+  .tools,.palette,.controls{flex-basis:100%;min-width:0}
+  .svg-wrap{padding:16px}
+  .draw-layer{inset:16px;width:calc(100% - 32px);height:calc(100% - 32px)}
+  header button{flex:1 1 45%;text-align:center}
+}
