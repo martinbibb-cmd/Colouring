@@ -1,16 +1,19 @@
-const CACHE = 'colouring-v2';
-const BASE = new URL('./', self.registration.scope).pathname; // e.g. /Colouring/
-const ASSETS = [
-  'index.html','styles.css','app.js','manifest.webmanifest',
-  'art/colouring_page_1.svg','art/colouring_page_2.svg','art/colouring_page_3.svg'
-].map(p => BASE + p);
+const CACHE = 'colouring-v3';
+const BASE = new URL('./', self.registration.scope).pathname;
+const ASSETS = ['index.html', 'styles.css', 'app.js', 'manifest.webmanifest'].map((p) => BASE + p);
 
-self.addEventListener('install', e=>{
-  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));
+self.addEventListener('install', (event) => {
+  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)));
 });
-self.addEventListener('activate', e=>{
-  e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))))
+  );
 });
-self.addEventListener('fetch', e=>{
-  e.respondWith(caches.match(e.request).then(r=>r || fetch(e.request)));
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(caches.match(event.request).then((response) => response || fetch(event.request)));
 });
