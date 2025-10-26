@@ -11,9 +11,22 @@
   <div class="app">
     <aside class="panel" id="sidebar">
       <div class="toolbar">
+        <h3>Artwork</h3>
+        <select id="artSelect">
+          <option value="art/dinosaur.svg">Dinosaur</option>
+          <option value="art/dogs-coloring-drawing.svg">Dogs</option>
+          <option value="art/colouring_page_1.svg">Tea Party</option>
+          <option value="art/girl-unicorn.svg">Unicorn</option>
+        </select>
+        <button class="tool" id="resetArtBtn">Reset Page</button>
+
+        <div class="row"></div>
+
         <h3>Tools</h3>
-        <button class="tool active" data-tool="brush">Brush</button>
+        <button class="tool active" data-tool="paintbrush">Paint Brush</button>
+        <button class="tool" data-tool="pen">Pen</button>
         <button class="tool" data-tool="spray">Spray</button>
+        <button class="tool" data-tool="stamp">Stamp</button>
         <button class="tool" data-tool="fill">Fill</button>
 
         <div class="row"></div>
@@ -36,6 +49,12 @@
         <input type="color" id="picker" value="#3aa3ff" />
 
         <div class="row"></div>
+
+        <h3>Stamps</h3>
+        <div class="stamps" id="stampPicker"></div>
+
+        <div class="row"></div>
+
         <h3>Actions</h3>
         <button class="tool" id="undoBtn">Undo</button>
         <button class="tool" id="clearBtn">Clear</button>
@@ -45,7 +64,9 @@
 
     <main class="canvas-wrap">
       <div class="canvas-inner" id="canvasHost">
-        <canvas id="canvas"></canvas>
+        <canvas id="whiteLayer"></canvas>
+        <canvas id="paintLayer"></canvas>
+        <img id="lineArt" alt="Line art" />
       </div>
     </main>
   </div>
